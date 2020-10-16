@@ -9,4 +9,5 @@ add_executable(droplay
 	opl3.h
 )
 
-target_link_libraries(droplay SDL2::SDL2)
+target_include_directories(droplay PRIVATE ${SDL2_INCLUDE_DIRS})
+target_link_libraries(droplay PRIVATE ${SDL2_LIBRARIES})
