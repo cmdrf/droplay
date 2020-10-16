@@ -34,7 +34,6 @@ static SDL_AudioDeviceID audioDevice;
 
 void WriteReg(int bank, unsigned int reg, unsigned int val)
 {
-	fprintf(stderr, "bank %i, reg %x, val %x\n", bank, reg, val);
 	SDL_LockMutex(chipMutex);
 	OPL3_WriteRegBuffered(&chip, (bank << 8) | reg, val);
 	SDL_UnlockMutex(chipMutex);
@@ -228,13 +227,21 @@ void PlayFile(char *filename)
 	}
 	else if(version[0] == 2 && version[1] == 0)
 	{
-		fread(&timer_data.dro2Header, 14, 1, timer_data.fstream);
+		if(fread(&timer_data.dro2Header, 14, 1, timer_data.fstream) != 1)
+		{
+			fprintf(stderr, "Could not read DROv2 header\n");
+			exit(EXIT_FAILURE);
+		}
 		if(timer_data.dro2Header.codemapLength > 128)
 		{
 			fprintf(stderr, "Too many codemap entries (%i)\n", timer_data.dro2Header.codemapLength);
 			exit(EXIT_FAILURE);
 		}
-		fread(&timer_data.dro2Header.codemap, 1, timer_data.dro2Header.codemapLength, timer_data.fstream);
+		if(fread(&timer_data.dro2Header.codemap, 1, timer_data.dro2Header.codemapLength, timer_data.fstream) != timer_data.dro2Header.codemapLength)
+		{
+			fprintf(stderr, "Could not read codemap\n");
+			exit(EXIT_FAILURE);
+		}
 		timer_data.running = 1;
 		SDL_AddTimer(0, Dro2TimerCallback, &timer_data);
 	}
