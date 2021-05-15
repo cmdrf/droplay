@@ -42,7 +42,7 @@ void WriteReg(int bank, unsigned int reg, unsigned int val)
 void AudioCallback(void* userdata, Uint8* stream, int len)
 {
 	SDL_LockMutex(chipMutex);
-	OPL3_GenerateStream(&chip, (Bit16s*)stream, len / 4);
+	OPL3_GenerateStream(&chip, (int16_t*)stream, len / 4);
 	SDL_UnlockMutex(chipMutex);
 }
 

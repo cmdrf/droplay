@@ -5,15 +5,15 @@ DRO music file command line player
 
 DRO files are created by DOSBox by recording all register writes to the emulated
 SoundBlaster or AdLib sound cards. These files can later be played back by software
-like this one.
+like this one. DRO format versions 1 and 2 are supported.
 
 droplay uses SDL for sound playback.
 
 ## Credits
 
-Based on droplay.c from the Chocolate Doom source by Simon Howard
+Based on droplay.c from the Chocolate Doom source by Simon Howard.
 
-Contains the Nuked OPL3 emulator by Alexey Khokholov
+Uses the Nuked OPL3 emulator by Alexey Khokholov.
 
 ## Build Instructions
 
